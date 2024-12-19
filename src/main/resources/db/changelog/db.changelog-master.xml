@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="AlexeyKumanek">
+        <createTable tableName="socks">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="color" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cotton_content" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint tableName="socks"
+                             columnNames="color, cotton_content"
+                             constraintName="unique_color_cotton_content"/>
+
+        <createSequence sequenceName="sock_sequence"
+                        startValue="1"
+                        incrementBy="1"
+                        cacheSize="1"
+        />
+    </changeSet>
+
+    <changeSet id="2" author="AlexeyKumanek">
+        <!-- Индекс на столбец color -->
+        <createIndex tableName="socks" indexName="idx_color">
+            <column name="color"/>
+        </createIndex>
+
+        <!-- Индекс на столбец cotton_content -->
+        <createIndex tableName="socks" indexName="idx_cotton_content">
+            <column name="cotton_content"/>
+        </createIndex>
+
+        <!-- Составной индекс на color и cotton_content -->
+        <createIndex tableName="socks" indexName="idx_color_cotton">
+            <column name="color"/>
+            <column name="cotton_content"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

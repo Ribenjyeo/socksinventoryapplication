@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: SocksInventoryApplication
+  datasource:
+    url: ${DATABASE_URL}?reWriteBatchedInserts=true
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 1000
+        order_updates: true
+        order_insert: true
+        generate_statistics: true
+        use_sql_comments: true
+  liquibase:
+    enabled: false
+    change-log: db/changelog/db.changelog-master.xml
